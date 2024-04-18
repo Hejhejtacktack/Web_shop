@@ -30,4 +30,7 @@ public class ProductService {
         return this.productRepo.findById(id)
                 .orElseThrow(() -> new NullPointerException("Product with id " + id + " not found"));
     }
+
+    public void addProduct(Product product) {
+    }
 }

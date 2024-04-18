@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -18,7 +19,6 @@ import java.util.List;
 public class ShoppingCartController {
 
     private final ShoppingCartService shoppingCartService;
-
     private final ProductService productService;
 
     @Autowired
@@ -31,6 +31,7 @@ public class ShoppingCartController {
     public String viewCartPage(Model model) {
         // Retrieve cart items
         List<CartItem> cartItems = this.shoppingCartService.getCartItems();
+        System.out.println("ShoppingCartController.viewCartPage(): " + cartItems.toString());
         model.addAttribute("cartItems", cartItems);
 
         // Calculate total price of the cart

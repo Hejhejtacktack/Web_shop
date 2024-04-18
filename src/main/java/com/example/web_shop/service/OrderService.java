@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class OrderService {
 
-    OrderRepository orderRepo;
+    private final OrderRepository orderRepo;
 
     @Autowired
     public OrderService(OrderRepository orderRepo) {
@@ -19,23 +19,24 @@ public class OrderService {
     }
 
     public Order createOrder(ShoppingCart shoppingCart) {
-        // Create a new list to store order items
+        // TODO THIS IS WEIRD
+        Order order = new Order();
         List<OrderItem> orderItems = new ArrayList<>();
 
-        // Iterate over cart items and convert them to order items
         for (CartItem cartItem : shoppingCart.getCartItems()) {
             Product product = cartItem.getProduct();
             int quantity = cartItem.getQuantity();
 
-            // Create an order item and add it to the list
+            // Creating an OrderItem and setting the relationship to Order
             OrderItem orderItem = new OrderItem(product, quantity);
+            orderItem.setOrder(order);
+
             orderItems.add(orderItem);
         }
 
-        // Create the order using the user and order items
-        Order order = new Order(new User(), orderItems);
+        order.setOrderItems(orderItems);
+        order.setTotalPrice(); // TODO CHANGE
 
-        // Save the order to the database
         return this.orderRepo.save(order);
     }
 }
