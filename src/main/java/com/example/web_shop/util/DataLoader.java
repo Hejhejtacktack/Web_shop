@@ -39,7 +39,23 @@ public class DataLoader implements CommandLineRunner {
         Product product3 = new Product("Wrangler 13MWZ", 499);
         product3.setCategory(category1);
 
-        this.productRepository.saveAll(Arrays.asList(product1, product2, product3));
+        Product product4 = new Product("Gant skjorta", 999);
+        product4.setCategory(category2);
+        Product product5 = new Product("Mormors stickade tröja", 559);
+        product5.setCategory(category2);
+        Product product6 = new Product("Lacoste piké", 379);
+        product6.setCategory(category2);
+
+        Product product7 = new Product("Dr Martens låg", 1999);
+        product7.setCategory(category3);
+        Product product8 = new Product("Adidas Gazelle", 689);
+        product8.setCategory(category3);
+        Product product9 = new Product("Superga sneaker", 449);
+        product9.setCategory(category3);
+
+        this.productRepository.saveAll(Arrays.asList(product1, product2, product3,
+                product4, product5, product6,
+                product7, product8, product9));
     }
 }
 

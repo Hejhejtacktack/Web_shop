@@ -29,16 +29,13 @@ public class ShoppingCartController {
 
     @GetMapping("/cart")
     public String viewCartPage(Model model) {
-        // Retrieve cart items
         List<CartItem> cartItems = this.shoppingCartService.getCartItems();
-        System.out.println("ShoppingCartController.viewCartPage(): " + cartItems.toString());
         model.addAttribute("cartItems", cartItems);
 
-        // Calculate total price of the cart
         double totalPrice = this.shoppingCartService.calculateTotalPrice(cartItems);
         model.addAttribute("totalPrice", totalPrice);
 
-        return "shoppingCart"; // Thymeleaf template name for the shopping cart page
+        return "shoppingCart";
     }
 
     @PostMapping("/addToCart")
@@ -47,10 +44,8 @@ public class ShoppingCartController {
         Product product = this.productService.getProduct(productId);
         this.shoppingCartService.addItemToCart(product, 1);
 
-        // Add a query parameter to indicate that a product has been added
         redirectAttributes.addAttribute("productAdded", true);
 
-        // Redirect back to the products page
         return "redirect:/products";
     }
 
@@ -60,11 +55,9 @@ public class ShoppingCartController {
         if (amount <= 0) {
             this.shoppingCartService.removeItemFromCart(productId);
         } else {
-            // Increment the quantity of the product in the cart
             this.shoppingCartService.incrementProductQuantity(productId, amount);
         }
 
-        // Redirect back to the cart page
         return "redirect:/cart";
     }
 }

@@ -22,7 +22,7 @@
         <td>
             <form th:action="@{/cart/increment}" method="post">
                 <input type="hidden" name="productId" th:value="${item.product.id}">
-                <!-- Input field for the user to specify the amount -->
+
                 <input type="number" name="amount" min="0" th:value="${item.quantity}">
                 <button type="submit">Update Quantity</button>
             </form>
@@ -34,9 +34,10 @@
 
 <div>Total Price: <span th:text="${totalPrice}"></span></div>
 
+<a href="/webshop">Home</a>
 <a href="#" onclick="window.history.back();">Go Back</a>
 
-<!-- Checkout button -->
+
 <form action="/webshop/checkout" method="get">
     <button type="submit">Checkout</button>
 </form>

@@ -1,6 +1,8 @@
 package com.example.web_shop.service;
 
+import com.example.web_shop.model.Category;
 import com.example.web_shop.model.Product;
+import com.example.web_shop.repository.CategoryRepository;
 import com.example.web_shop.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,11 +12,13 @@ import java.util.List;
 @Service
 public class ProductService {
 
-    private ProductRepository productRepo;
+    private final ProductRepository productRepo;
+    private final CategoryRepository categoryRepo;
 
     @Autowired
-    public ProductService(ProductRepository productRepo) {
+    public ProductService(ProductRepository productRepo, CategoryRepository categoryRepo) {
         this.productRepo = productRepo;
+        this.categoryRepo = categoryRepo;
     }
 
     public List<Product> getProducts() {
@@ -32,5 +36,17 @@ public class ProductService {
     }
 
     public void addProduct(Product product) {
+    }
+
+    public List<Product> getProductsByCategory(String name) {
+        return this.productRepo.findAllByCategoryName(name);
+    }
+
+    public List<Product> searchProducts(String keyword) {
+        return productRepo.findByNameContaining(keyword);
+    }
+
+    public List<Category> getCategories() {
+        return this.categoryRepo.findAll();
     }
 }

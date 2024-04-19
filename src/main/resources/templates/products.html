@@ -8,29 +8,30 @@
 <body>
 <h1>Products</h1>
 
-<ul>
-    <!-- Product list -->
-    <li th:each="product : ${products}">
-        <!-- Product details -->
-        <form th:action="@{/addToCart}" method="post">
-            <!-- Hidden field to store product ID -->
-            <input type="hidden" name="productId" th:value="${product.id}">
-            <!-- Display product name and price -->
-            <span th:text="${product.name}"></span> -
-            <span th:text="${product.price}"></span>
-            <!-- Button to add product to cart -->
-            <button type="submit">Add to Cart</button>
-        </form>
-    </li>
-</ul>
+<div th:if="${products}">
+    <ul>
+        <li th:each="product : ${products}">
+            <form th:action="@{/addToCart}" method="post">
+                <!-- Hidden field product ID -->
+                <input type="hidden" name="productId" th:value="${product.id}">
 
-<!-- Check if product is added to shopping cart and display message -->
+                <span th:text="${product.name}"></span> -
+                <span th:text="${product.price}"></span>
+
+                <button type="submit">Add to Cart</button>
+            </form>
+        </li>
+    </ul>
+</div>
+
+
 <div th:if="${param.productAdded}" class="message">
     Product added to cart
 </div>
 
-<!-- Link to navigate to the cart page -->
+
 <a href="/webshop/cart">View Cart</a>
+<a href="/webshop">Home</a>
 <a href="#" onclick="window.history.back();">Go Back</a>
 
 </body>

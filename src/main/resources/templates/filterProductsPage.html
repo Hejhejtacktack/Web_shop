@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Filter Products</title>
+</head>
+<body>
+
+<h2>Categories</h2>
+
+<form th:action="@{/products/filtered}" method="GET">
+    <label for="category">Select Category:</label>
+    <select id="category" name="category">
+        <option value="">All Categories</option>
+
+        <option th:each="category : ${categories}" th:value="${category}" th:text="${category}"></option>
+    </select>
+    <button type="submit">Filter</button>
+</form>
+
+<div th:if="${products}">
+    <h3>Filtered Products:</h3>
+    <ul>
+
+        <li th:each="product : ${products}">
+            <span th:text="${product.name}"></span> -
+            <span th:text="${product.price}"></span>
+        </li>
+    </ul>
+</div>
+
+<a href="/webshop/products">View All Products</a>
+<a href="/webshop">Home</a>
+
+</body>
+</html>

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.annotation.SessionScope;
 
+import java.security.Principal;
+
 @Controller
 public class CheckoutController {
 
@@ -25,11 +27,18 @@ public class CheckoutController {
     }
 
     @GetMapping("/checkout")
-    public String checkout(Model model) {
+    public String checkout(Model model, Principal principal) {
         ShoppingCart shoppingCart = this.shoppingCartService.getCurrentCart();
         Order order = orderService.createOrder(shoppingCart);
-        // Display confirmation page with order details
+
         model.addAttribute("order", order);
+        model.addAttribute("username", principal.getName());
         return "confirmationPage";
+    }
+
+    @GetMapping("/checkout/review")
+    public String reviewOrders(){
+        return "index";
+        // TODO
     }
 }

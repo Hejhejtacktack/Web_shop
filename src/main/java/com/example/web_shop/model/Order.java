@@ -14,9 +14,9 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private User user;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user")
+    private User user;
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
     @Column(nullable = false)
@@ -53,13 +53,13 @@ public class Order {
         return id;
     }
 
-//    public User getCustomer() {
-//        return customer;
-//    }
-//
-//    public void setCustomer(User customer) {
-//        this.customer = customer;
-//    }
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public List<OrderItem> getOrderItems() {
         return orderItems;

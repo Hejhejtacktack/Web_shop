@@ -15,14 +15,15 @@ import java.util.Optional;
 @Service
 @SessionScope
 public class ShoppingCartService {
-
-    private final HttpSession httpSession;
     private final ShoppingCart shoppingCart;
 
     @Autowired
-    public ShoppingCartService(HttpSession httpSession, ShoppingCart shoppingCart) {
-        this.httpSession = httpSession;
+    public ShoppingCartService(ShoppingCart shoppingCart) {
         this.shoppingCart = shoppingCart;
+    }
+
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
     }
 
     public ShoppingCart getCurrentCart() {
@@ -31,6 +32,9 @@ public class ShoppingCartService {
 
     public List<CartItem> getCartItems() {
         return shoppingCart.getCartItems();
+    }
+    public void setCartItems(List<CartItem> cartItems) {
+        this.shoppingCart.setCartItems(cartItems);
     }
 
     public double calculateTotalPrice(List<CartItem> cartItems) {
@@ -43,26 +47,21 @@ public class ShoppingCartService {
     }
 
     public void incrementProductQuantity(Long productId, int quantity) {
-        // Find the cart item corresponding to the specified product ID
         Optional<CartItem> cartItemOptional = this.shoppingCart.getCartItems().stream()
                 .filter(item -> item.getProduct().getId().equals(productId))
                 .findFirst();
 
-        // Increment the quantity if the product is found in the cart
         cartItemOptional.ifPresent(cartItem -> cartItem.setQuantity(quantity));
     }
 
     public void addItemToCart(Product product, int quantity) {
-        // Check if the product is already in the cart
         Optional<CartItem> existingItem = this.shoppingCart.getCartItems().stream()
                 .filter(item -> item.getProduct().getId().equals(product.getId()))
                 .findFirst();
 
-        if (existingItem.isPresent()) {
-            // Update quantity if the product is already in the cart
+        if (existingItem.isPresent()) { // If item is in cart already
             existingItem.get().setQuantity(existingItem.get().getQuantity() + quantity);
-        } else {
-            // Otherwise, add a new cart item
+        } else { // if no item is in cart
             CartItem newItem = new CartItem(product, quantity);
             this.shoppingCart.getCartItems().add(newItem);
         }
