@@ -1,11 +1,13 @@
 package com.example.web_shop.config;
 
+import com.example.web_shop.exception.CustomAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
 import javax.sql.DataSource;
 
@@ -32,11 +35,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .accessDeniedPage("/accessDenied")
+                        .accessDeniedHandler(accessDeniedHandler()))
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/login", "/register").permitAll()
-                        .requestMatchers("/products/add").hasAuthority("ROLE_ADMIN")
-                        .anyRequest().authenticated()
-                )
+                        .requestMatchers("/products/add", "/checkout/review", "/checkout/updateStatus").hasAuthority("ROLE_ADMIN")
+                        .anyRequest().authenticated())
                 .userDetailsService(myUserDetailsServiceImpl)
                 .httpBasic(Customizer.withDefaults())
                 .formLogin((formLogin) -> formLogin
@@ -67,10 +72,14 @@ public class SecurityConfig {
         return users;
     }
 
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);
+    }
+
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return new CustomAccessDeniedHandler();
     }
 }
 

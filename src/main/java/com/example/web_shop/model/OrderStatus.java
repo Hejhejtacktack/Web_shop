@@ -1,5 +1,9 @@
 package com.example.web_shop.model;
 
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
+
 public enum OrderStatus {
     PENDING("Pending"),
     PROCESSING("Processing"),

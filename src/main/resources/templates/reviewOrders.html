@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Orders</title>
+</head>
+<body>
+<form th:action="@{/checkout/updateStatus}" method="POST">
+    <div th:each="order : ${orders}">
+
+        <p>Order ID: <span th:text="${order.id}"></span></p>
+        <p>Order Date: <span th:text="${order.orderDate}"></span></p>
+        <p>Status: <span th:text="${order.status}"></span></p>
+
+        <select name="status">
+            <option th:each="status : ${statuses}" th:value="${status}" th:text="${status.getDisplayName()}"></option>
+        </select>
+
+        <p>Buyer: <span th:text="${username}"></span></p>
+
+        <input type="hidden" name="orderId" th:value="${order.id}">
+
+        <button type="submit">Change status</button>
+    </div>
+</form>
+
+</body>
+</html>

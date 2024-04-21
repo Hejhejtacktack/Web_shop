@@ -82,6 +82,6 @@ public class ProductController {
         }
         model.addAttribute("products", filteredProducts);
         model.addAttribute("categories", this.productService.getCategories());
-        return "filterProductsPage"; // Thymeleaf template for filtered products
+        return "filterProductsPage";
     }
 }

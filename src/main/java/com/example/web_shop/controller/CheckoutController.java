@@ -1,6 +1,7 @@
 package com.example.web_shop.controller;
 
 import com.example.web_shop.model.Order;
+import com.example.web_shop.model.OrderStatus;
 import com.example.web_shop.model.ShoppingCart;
 import com.example.web_shop.service.OrderService;
 import com.example.web_shop.service.ShoppingCartService;
@@ -10,9 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.annotation.SessionScope;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class CheckoutController {
@@ -37,8 +40,17 @@ public class CheckoutController {
     }
 
     @GetMapping("/checkout/review")
-    public String reviewOrders(){
-        return "index";
-        // TODO
+    public String reviewOrders(Model model, Principal principal) {
+        model.addAttribute("orders", this.orderService.getAllOrders());
+        model.addAttribute("statuses", this.orderService.getAllStatuses());
+        model.addAttribute("username", principal.getName());
+        return "reviewOrders";
+    }
+
+    @PostMapping("/checkout/updateStatus")
+    public String updateStatus(@RequestParam("orderId") Long orderId,
+                               @RequestParam("status") OrderStatus status) {
+        orderService.updateOrderStatus(orderId, status);
+        return "redirect:/checkout/review";
     }
 }

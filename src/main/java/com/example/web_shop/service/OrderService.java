@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 
 @Service
@@ -45,5 +47,19 @@ public class OrderService {
         order.setTotalPrice(); // TODO CHANGE
 
         return this.orderRepo.save(order);
+    }
+
+    public List<Order> getAllOrders() {
+        return this.orderRepo.findAll();
+    }
+
+    public List<OrderStatus> getAllStatuses() {
+        return Arrays.asList(OrderStatus.values());
+    }
+
+    public void updateOrderStatus(Long orderId, OrderStatus status) {
+        Order order = this.orderRepo.findById(orderId).get();
+        order.setStatus(status);
+        this.orderRepo.save(order);
     }
 }
