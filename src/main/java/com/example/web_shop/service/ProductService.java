@@ -36,6 +36,7 @@ public class ProductService {
     }
 
     public void addProduct(Product product) {
+        this.productRepo.save(product);
     }
 
     public List<Product> getProductsByCategory(String name) {

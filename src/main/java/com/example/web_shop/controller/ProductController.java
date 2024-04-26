@@ -35,7 +35,6 @@ public class ProductController {
 
     @GetMapping("/products/add")
     public String showAddProductForm(Model model) {
-
         model.addAttribute("categories", this.productService.getCategories());
         model.addAttribute("product", new Product());
         return "addProductForm";
@@ -49,7 +48,6 @@ public class ProductController {
 
     @GetMapping("/products/search")
     public String showSearchProductForm(Model model) {
-
         model.addAttribute("search", "");
         return "searchProductPage";
     }

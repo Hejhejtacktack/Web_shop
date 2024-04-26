@@ -8,7 +8,7 @@
 
 <h2>Add Product</h2>
 
-<form th:action="@{/products/add}" method="post">
+<form th:action="@{/products/add}" method="POST">
   <label for="name">Product Name:</label>
   <input type="text" id="name" name="name" required><br><br>
 
@@ -16,9 +16,8 @@
   <input type="number" id="price" name="price" step="0.01" min="0" required><br><br>
 
   <label for="category">Category:</label>
-  <select id="category" name="category" required>
-    <option th:each="category : ${categories}" th:value="${category}" th:text="${category}"></option>
-
+  <select id="category" name="category.id" required>
+    <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
   </select><br><br>
 
   <button type="submit">Add Product</button>
